@@ -1,0 +1,197 @@
+{
+  "id": "mikrotik",
+  "name": "MikroTik RouterOS",
+  "version": "0.1.0",
+  "description": "Configure MikroTik routers from Termix instead of WinBox: interfaces, bridges, IP, firewall, wireless, VPN, routing, system, tools and discovery.",
+  "author": {
+    "name": "Дмитрий Ляхов"
+  },
+  "license": "Apache-2.0",
+  "repository": "https://github.com/sbrw-evc/Termix-MikroTik",
+  "docs": "https://github.com/sbrw-evc/Termix-MikroTik/blob/main/docs/index.md",
+  "category": "Networking",
+  "icon": "Router",
+  "features": [
+    "A MikroTik tool in the sidebar once a host is marked as a RouterOS router",
+    "Every router in one tree, with WinBox's menu under each",
+    "RouterOS v7 through the REST API and v6 and v7 through the API on port 8728 or 8729",
+    "Reach the router through the host's SSH connection, so no API port is open to the network",
+    "Interfaces with live traffic, bridges, ports and VLANs",
+    "IP addresses, routes, pools, ARP, DNS, DHCP server, client and relay",
+    "Firewall filter, NAT, mangle and raw rules, address lists and connections",
+    "Wireless, WiFi and CAPsMAN for both the old and the new wireless packages",
+    "PPP, PPPoE, L2TP, SSTP, OpenVPN, IPsec and WireGuard with peer configs and QR codes",
+    "Queues, OSPF, BGP and routing filters for RouterOS v6 and v7",
+    "Users, scheduler, scripts, certificates, clock, NTP, SNMP and logging",
+    "Packages and updates, RouterBOARD firmware, reboot and shutdown",
+    "Backups and exports, and the router's files",
+    "Log, ping, traceroute, torch, IP scan and Wake-on-LAN",
+    "Any menu in an editor of its own, for what has no panel yet",
+    "Find routers on the network with MNDP and add them as hosts",
+    "Safe changes that roll back unless you confirm them"
+  ],
+  "env": [],
+  "engine": {
+    "termix": ">=26.10.0",
+    "api": "^1.4"
+  },
+  "capabilities": [
+    "hosts:read",
+    "hosts:write",
+    "credentials:use",
+    "credentials:read",
+    "ssh:connect",
+    "network:serve",
+    "network:outbound",
+    "network:broadcast",
+    "ui:surface"
+  ],
+  "contributes": {
+    "tabs": [
+      {
+        "id": "mikrotik",
+        "titleKey": "nav.title",
+        "icon": "Router",
+        "openFrom": ["rail", "palette", "host-context-menu"]
+      }
+    ],
+    "panels": [
+      {
+        "id": "mikrotik-tree",
+        "titleKey": "nav.title",
+        "icon": "Router"
+      }
+    ],
+    "permissions": [
+      {
+        "name": "view",
+        "titleKey": "permissions.view.title",
+        "descriptionKey": "permissions.view.description",
+        "defaultRoles": ["admin", "user"]
+      },
+      {
+        "name": "operate",
+        "titleKey": "permissions.operate.title",
+        "descriptionKey": "permissions.operate.description",
+        "defaultRoles": ["admin", "user"]
+      },
+      {
+        "name": "configure",
+        "titleKey": "permissions.configure.title",
+        "descriptionKey": "permissions.configure.description",
+        "defaultRoles": ["admin"]
+      },
+      {
+        "name": "administer",
+        "titleKey": "permissions.administer.title",
+        "descriptionKey": "permissions.administer.description",
+        "defaultRoles": ["admin"]
+      }
+    ],
+    "settings": {
+      "host": {
+        "enableKey": "enableRouterOs",
+        "enableLabelKey": "settings.enable.label",
+        "enableDescriptionKey": "settings.enable.description",
+        "editorGroup": "top",
+        "fields": [
+          {
+            "key": "rosTransport",
+            "type": "select",
+            "labelKey": "settings.transport.label",
+            "descriptionKey": "settings.transport.description",
+            "default": "auto",
+            "defaultable": false,
+            "options": [
+              { "value": "auto", "labelKey": "settings.transport.auto" },
+              {
+                "value": "api-tunnel",
+                "labelKey": "settings.transport.apiTunnel"
+              },
+              {
+                "value": "rest-tunnel",
+                "labelKey": "settings.transport.restTunnel"
+              },
+              { "value": "rest", "labelKey": "settings.transport.rest" },
+              { "value": "api", "labelKey": "settings.transport.api" }
+            ]
+          },
+          {
+            "key": "rosUsername",
+            "type": "string",
+            "labelKey": "settings.username.label",
+            "descriptionKey": "settings.username.description",
+            "placeholderKey": "settings.username.placeholder",
+            "defaultable": false,
+            "ownerOnly": true
+          },
+          {
+            "key": "rosPassword",
+            "type": "secret",
+            "labelKey": "settings.password.label",
+            "descriptionKey": "settings.password.description",
+            "defaultable": false,
+            "ownerOnly": true
+          },
+          {
+            "key": "rosAddress",
+            "type": "string",
+            "labelKey": "settings.address.label",
+            "descriptionKey": "settings.address.description",
+            "defaultable": false
+          },
+          {
+            "key": "rosRestScheme",
+            "type": "select",
+            "labelKey": "settings.restScheme.label",
+            "descriptionKey": "settings.restScheme.description",
+            "default": "https",
+            "defaultable": false,
+            "options": [
+              { "value": "https", "labelKey": "settings.restScheme.https" },
+              { "value": "http", "labelKey": "settings.restScheme.http" }
+            ]
+          },
+          {
+            "key": "rosRestPort",
+            "type": "number",
+            "labelKey": "settings.restPort.label",
+            "descriptionKey": "settings.restPort.description",
+            "default": 0,
+            "min": 0,
+            "max": 65535,
+            "defaultable": false
+          },
+          {
+            "key": "rosApiTls",
+            "type": "boolean",
+            "labelKey": "settings.apiTls.label",
+            "descriptionKey": "settings.apiTls.description",
+            "default": false,
+            "defaultable": false
+          },
+          {
+            "key": "rosApiPort",
+            "type": "number",
+            "labelKey": "settings.apiPort.label",
+            "descriptionKey": "settings.apiPort.description",
+            "default": 0,
+            "min": 0,
+            "max": 65535,
+            "defaultable": false
+          },
+          {
+            "key": "rosCaCert",
+            "type": "textarea",
+            "labelKey": "settings.caCert.label",
+            "descriptionKey": "settings.caCert.description",
+            "placeholderKey": "settings.caCert.placeholder",
+            "defaultable": false
+          }
+        ]
+      }
+    }
+  },
+  "locales": "locales",
+  "platforms": ["linux", "win32", "darwin"]
+}

@@ -1,0 +1,18 @@
+node_modules
+dist
+coverage
+*.log
+.env
+*.tmxplug
+*.tmxplug.sig
+termix-plugin-signing.key
+.termix-tables-*
+
+# Editors and OS
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local router credentials for live tests
+.env.local
